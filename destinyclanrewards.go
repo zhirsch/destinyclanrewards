@@ -82,6 +82,10 @@ func getCharacters(api *client.BungieNet, auth runtime.ClientAuthInfoWriter, use
 		return nil, err
 	}
 	var characters []models.DestinyEntitiesCharactersDestinyCharacterComponent
+	if resp.Payload.Response == nil {
+		logger.Printf("no characters for user %v (%q)", user.MembershipID, user.DisplayName)
+		return characters, nil
+	}
 	for _, v := range resp.Payload.Response.Characters.Data {
 		characters = append(characters, v)
 	}
